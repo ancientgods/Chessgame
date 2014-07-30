@@ -179,14 +179,20 @@ namespace Chess
                                 Moves.Add(new Point(X, Y - 2));
                             }
 
-                            if (Tiles[X - 1, Y - 1].ChessPiece != ChessPiece.None && !Tiles[X - 1, Y - 1].White)
+                            if (X > 0)
                             {
-                                Moves.Add(new Point(X - 1, Y - 1));
+                                if (Tiles[X - 1, Y - 1].ChessPiece != ChessPiece.None && !Tiles[X - 1, Y - 1].White)
+                                {
+                                    Moves.Add(new Point(X - 1, Y - 1));
+                                }
                             }
 
-                            if (Tiles[X + 1, Y - 1].ChessPiece != ChessPiece.None && !Tiles[X + 1, Y - 1].White)
+                            if (Y > 7)
                             {
-                                Moves.Add(new Point(X + 1, Y - 1));
+                                if (Tiles[X + 1, Y - 1].ChessPiece != ChessPiece.None && !Tiles[X + 1, Y - 1].White)
+                                {
+                                    Moves.Add(new Point(X + 1, Y - 1));
+                                }
                             }
                         }
                     }
@@ -202,16 +208,21 @@ namespace Chess
                                 Moves.Add(new Point(X, Y + 2));
                             }
 
-                            if (Tiles[X - 1, Y + 1].ChessPiece != ChessPiece.None && Tiles[X - 1, Y + 1].White)
+                            if (X > 0)
                             {
-                                Moves.Add(new Point(X - 1, Y + 1));
+                                if (Tiles[X - 1, Y + 1].ChessPiece != ChessPiece.None && Tiles[X - 1, Y + 1].White)
+                                {
+                                    Moves.Add(new Point(X - 1, Y + 1));
+                                }
                             }
 
-                            if (Tiles[X + 1, Y + 1].ChessPiece != ChessPiece.None && Tiles[X + 1, Y + 1].White)
+                            if (Y > 7)
                             {
-                                Moves.Add(new Point(X + 1, Y + 1));
+                                if (Tiles[X + 1, Y + 1].ChessPiece != ChessPiece.None && Tiles[X + 1, Y + 1].White)
+                                {
+                                    Moves.Add(new Point(X + 1, Y + 1));
+                                }
                             }
-
                         }
                     }
                     #endregion Pawn

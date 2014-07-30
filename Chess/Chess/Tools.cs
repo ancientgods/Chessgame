@@ -1,15 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 using System.IO;
-using Chess;
 using Drawing = System.Drawing;
 
 namespace Chess
@@ -27,9 +18,8 @@ namespace Chess
                 for (int j = 0; j < clrs.Length; j++)
                     clrs[j] = bmp.GetPixel(j % 64 + (64 * (i % 6)), j / 64 + (64 * (i / 6))).ToXnaColor();
 
-                Texture2D texture = new Texture2D(Chess.graphics.GraphicsDevice, 64, 64);
-                texture.SetData(clrs);
-                ChessBoard.Texture[i] = texture;
+                ChessBoard.Texture[i] = new Texture2D(Chess.graphics.GraphicsDevice, 64, 64);
+                ChessBoard.Texture[i].SetData(clrs);
             }
         }
 
@@ -43,6 +33,7 @@ namespace Chess
             return temp;
         }
     }
+
     public static class Extra
     {
         public static Color ToXnaColor(this Drawing.Color c)
