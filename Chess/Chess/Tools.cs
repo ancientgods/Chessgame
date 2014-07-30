@@ -27,7 +27,7 @@ namespace Chess
                 for (int j = 0; j < clrs.Length; j++)
                     clrs[j] = bmp.GetPixel(j % 64 + (64 * (i % 6)), j / 64 + (64 * (i / 6))).ToXnaColor();
 
-                Texture2D texture = new Texture2D(Game1.graphics.GraphicsDevice, 64, 64);
+                Texture2D texture = new Texture2D(Chess.graphics.GraphicsDevice, 64, 64);
                 texture.SetData(clrs);
                 ChessBoard.Texture[i] = texture;
             }
@@ -35,7 +35,7 @@ namespace Chess
 
         public static Texture2D GetTexture(int width, int height, Color color)
         {
-            Texture2D temp = new Texture2D(Game1.graphics.GraphicsDevice, width, height);
+            Texture2D temp = new Texture2D(Chess.graphics.GraphicsDevice, width, height);
             Color[] colors = new Color[width * height];
             for (int i = 0; i < colors.Length; i++)
                 colors[i] = color;

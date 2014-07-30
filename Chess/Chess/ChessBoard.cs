@@ -21,6 +21,7 @@ namespace Chess
         Queen = 4,
         King = 5
     }
+
     public class ChessBoard
     {
         public static Point SelectedPiece = Point.Zero;
@@ -68,9 +69,9 @@ namespace Chess
 
         public static void Draw()
         {
-            Rectangle MouseRect = new Rectangle(Game1.MouseState.X,Game1.MouseState.Y,1,1);
+            Rectangle MouseRect = new Rectangle(Chess.MouseState.X,Chess.MouseState.Y,1,1);
 
-            if (Game1.MouseDown)
+            if (Chess.MouseDown)
             {
                 for (int i = 0; i < AM.Count; i++)
                 {
@@ -85,7 +86,6 @@ namespace Chess
                 }
             }
 
-            bool temp = false;
             AM = GetMoves(SelectedPiece.X, SelectedPiece.Y);
             for (int x = 0; x < 8; x++)
             {
@@ -99,31 +99,24 @@ namespace Chess
                     if ((x + y) % 2 == 0)
                     {
                         drawingcolor = Color.White;
-                        if (temp)
-                        {
-                            drawingcolor = Color.Yellow;
-                        }
-
                     }
-                    else if (temp)
-                        drawingcolor = new Color(191, 179, 86);
 
                     if (SelectedPiece != null)
                     {
                         if (t.ChessPiece != ChessPiece.None)
                         {
-                            if (SelectedPiece == new Point(x, y) /*&& t.PieceColor == true*/)
+                            if (SelectedPiece == new Point(x, y))
                             {
-                                drawingcolor = Color.Blue;
+                                drawingcolor = Color.DarkGreen;
                             }
                         }
                     }
 
                     if (Location.Intersects(MouseRect))
                     {
-                        if (t.ChessPiece != ChessPiece.None /*&& t.PieceColor == true*/)
+                        if (t.ChessPiece != ChessPiece.None)
                         {
-                            if (Game1.MouseDown)
+                            if (Chess.MouseDown)
                             {
                                 SelectedPiece = new Point(x, y);
                             }
@@ -134,13 +127,23 @@ namespace Chess
                     {
                         bool white = Tiles[SelectedPiece.X, SelectedPiece.Y].White;
                         if (Tiles[x, y].ChessPiece != ChessPiece.None && Tiles[x, y].White != white)
-                            drawingcolor = Color.Red;
+                        {
+                            if ((x + y) % 2 == 0)
+                                drawingcolor = Color.IndianRed;
+                            else 
+                                drawingcolor = Color.DarkRed;
+                        }
                         else
-                        drawingcolor = Color.LightGreen;
+                        {
+                            if ((x + y) % 2 == 0)
+                                drawingcolor = Color.Yellow;
+                            else
+                                drawingcolor = new Color(191, 179, 86);
+                        }
                     }
 
                     Texture2D texture = GetTexture(t.ChessPiece, t.White);
-                    Game1.spriteBatch.Draw(texture, new Rectangle(x * 50, y * 50, 50, 50), drawingcolor);
+                    Chess.spriteBatch.Draw(texture, new Rectangle(x * 50, y * 50, 50, 50), drawingcolor);
                 }
             }
         }

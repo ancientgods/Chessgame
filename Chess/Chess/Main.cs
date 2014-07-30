@@ -13,7 +13,7 @@ using Chess;
 
 namespace Chess
 {
-    public class Game1 : Microsoft.Xna.Framework.Game
+    public class Chess : Game
     {
         public static Texture2D Pointer;
         public static bool MouseDown;
@@ -21,7 +21,7 @@ namespace Chess
         public static GraphicsDeviceManager graphics;
         public static SpriteBatch spriteBatch;
 
-        public Game1()
+        public Chess()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -29,6 +29,9 @@ namespace Chess
 
         protected override void Initialize()
         {
+            graphics.PreferredBackBufferHeight = 400;
+            graphics.PreferredBackBufferWidth = 400;
+            graphics.ApplyChanges();
             Tools.LoadChessPieces();
             ChessBoard.Reset();
             base.Initialize();
