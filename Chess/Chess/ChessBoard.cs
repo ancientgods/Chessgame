@@ -60,8 +60,6 @@ namespace Chess
             Tiles[3, 7] = new Tile(true, ChessPiece.King);
             Tiles[4, 7] = new Tile(true, ChessPiece.Queen);
 
-            Tiles[1, 5] = new Tile(true, ChessPiece.Rook);
-
             for (int i = 0; i < 8; i++)
             {
                 Tiles[i, 6] = new Tile(true, ChessPiece.Pawn);
