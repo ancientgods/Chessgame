@@ -24,7 +24,7 @@ namespace Chess
 
     public class ChessBoard
     {
-        public static Point SelectedPiece = Point.Zero;
+        public static Point SelectedPiece = new Point(4,4);
         public static Texture2D EmptyTile = Tools.GetTexture(50, 50, Color.White);
         public static Texture2D[] Texture = new Texture2D[12];
         public static Tile[,] Tiles = new Tile[8, 8];
@@ -33,32 +33,34 @@ namespace Chess
         public static void Reset()
         {
             for (int i = 0; i < 8; i++)
+            {
                 for (int j = 0; j < 8; j++)
-                    Tiles[i, j] = new Tile(false, ChessPiece.None);
+                {
+                    Tiles[i, j] = new Tile(false);
+                }
+            }
 
             Tiles[0, 0] = new Tile(false, ChessPiece.Rook);
             Tiles[7, 0] = new Tile(false, ChessPiece.Rook);
             Tiles[0, 7] = new Tile(true, ChessPiece.Rook);
             Tiles[7, 7] = new Tile(true, ChessPiece.Rook);
 
-
             Tiles[1, 0] = new Tile(false, ChessPiece.Knight);
             Tiles[6, 0] = new Tile(false, ChessPiece.Knight);
             Tiles[1, 7] = new Tile(true, ChessPiece.Knight);
             Tiles[6, 7] = new Tile(true, ChessPiece.Knight);
-
 
             Tiles[2, 0] = new Tile(false, ChessPiece.Bishop);
             Tiles[5, 0] = new Tile(false, ChessPiece.Bishop);
             Tiles[2, 7] = new Tile(true, ChessPiece.Bishop);
             Tiles[5, 7] = new Tile(true, ChessPiece.Bishop);
 
-
             Tiles[3, 0] = new Tile(false, ChessPiece.King);
             Tiles[4, 0] = new Tile(false, ChessPiece.Queen);
             Tiles[3, 7] = new Tile(true, ChessPiece.King);
             Tiles[4, 7] = new Tile(true, ChessPiece.Queen);
 
+            Tiles[1, 5] = new Tile(true, ChessPiece.Rook);
 
             for (int i = 0; i < 8; i++)
             {
@@ -70,6 +72,7 @@ namespace Chess
         public static void Draw()
         {
             Rectangle MouseRect = new Rectangle(Chess.MouseState.X, Chess.MouseState.Y, 1, 1);
+            AM = GetMoves(SelectedPiece.X, SelectedPiece.Y);
 
             if (Chess.MouseDown)
             {
@@ -86,7 +89,6 @@ namespace Chess
                 }
             }
 
-            AM = GetMoves(SelectedPiece.X, SelectedPiece.Y);
             for (int x = 0; x < 8; x++)
             {
                 for (int y = 0; y < 8; y++)
@@ -123,6 +125,7 @@ namespace Chess
                             drawingcolor = Color.Green;
                         }
                     }
+
                     if (AM.Contains(new Point(x, y)))
                     {
                         bool white = Tiles[SelectedPiece.X, SelectedPiece.Y].White;
@@ -152,8 +155,7 @@ namespace Chess
         {
             if (piece == ChessPiece.None)
                 return EmptyTile;
-            int i = white ? 0 : 6;
-            return Texture[(int)piece + i];
+            return Texture[(int)piece + (white ? 0 : 6)];
         }
 
         public static List<Point> GetMoves(int X, int Y)
@@ -187,7 +189,7 @@ namespace Chess
                                 }
                             }
 
-                            if (Y > 7)
+                            if (X < 7)
                             {
                                 if (Tiles[X + 1, Y - 1].ChessPiece != ChessPiece.None && !Tiles[X + 1, Y - 1].White)
                                 {
@@ -216,7 +218,7 @@ namespace Chess
                                 }
                             }
 
-                            if (Y > 7)
+                            if (X < 7)
                             {
                                 if (Tiles[X + 1, Y + 1].ChessPiece != ChessPiece.None && Tiles[X + 1, Y + 1].White)
                                 {
@@ -229,6 +231,124 @@ namespace Chess
                     break;
                 case ChessPiece.Knight:
                     #region Knight
+                    if (t.White)
+                    {
+                        if (X < 6 && Y >0 )
+                        {
+                            if (!(Tiles[X + 2, Y - 1].ChessPiece != ChessPiece.None && Tiles[X + 2, Y - 1].White))
+                            {
+                                Moves.Add(new Point(X + 2, Y - 1));
+                            }
+                        }
+                        if (X > 1 && Y > 0)
+                        {
+                            if (!(Tiles[X - 2, Y - 1].ChessPiece != ChessPiece.None && Tiles[X - 2, Y - 1].White))
+                            {
+                                Moves.Add(new Point(X - 2, Y - 1));
+                            }
+                        }
+                        if (X < 6 && Y < 7)
+                        {
+                            if (!(Tiles[X + 2, Y + 1].ChessPiece != ChessPiece.None && Tiles[X + 2, Y + 1].White))
+                            {
+                                Moves.Add(new Point(X + 2, Y + 1));
+                            }
+                        }
+                        if (X > 1 && Y < 7)
+                        {
+                            if (!(Tiles[X - 2, Y + 1].ChessPiece != ChessPiece.None && Tiles[X - 2, Y + 1].White))
+                            {
+                                Moves.Add(new Point(X - 2, Y + 1));
+                            }
+                        }
+                        if (X > 0 && Y < 6)
+                        {
+                            if (!(Tiles[X - 1, Y + 2].ChessPiece != ChessPiece.None && Tiles[X - 1, Y + 2].White))
+                            {
+                                Moves.Add(new Point(X - 1, Y + 2));
+                            }
+                        }
+                        if (X > 0 && Y > 1)
+                        {
+                            if (!(Tiles[X - 1, Y - 2].ChessPiece != ChessPiece.None && Tiles[X - 1, Y - 2].White))
+                            {
+                                Moves.Add(new Point(X - 1, Y - 2));
+                            }
+                        }
+                        if (X < 7 && Y < 6)
+                        {
+                            if (!(Tiles[X + 1, Y + 2].ChessPiece != ChessPiece.None && Tiles[X + 1, Y + 2].White))
+                            {
+                                Moves.Add(new Point(X + 1, Y + 2));
+                            }
+                        }
+                        if (X < 7 && Y > 1)
+                        {
+                            if (!(Tiles[X + 1, Y - 2].ChessPiece != ChessPiece.None && Tiles[X + 1, Y - 2].White))
+                            {
+                                Moves.Add(new Point(X + 1, Y - 2));
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (X < 6 && Y > 0)
+                        {
+                            if (!(Tiles[X + 2, Y - 1].ChessPiece != ChessPiece.None && !Tiles[X + 2, Y - 1].White))
+                            {
+                                Moves.Add(new Point(X + 2, Y - 1));
+                            }
+                        }
+                        if (X > 1 && Y > 0)
+                        {
+                            if (!(Tiles[X - 2, Y - 1].ChessPiece != ChessPiece.None && !Tiles[X - 2, Y - 1].White))
+                            {
+                                Moves.Add(new Point(X - 2, Y - 1));
+                            }
+                        }
+                        if (X < 6 && Y < 7)
+                        {
+                            if (!(Tiles[X + 2, Y + 1].ChessPiece != ChessPiece.None && !Tiles[X + 2, Y + 1].White))
+                            {
+                                Moves.Add(new Point(X + 2, Y + 1));
+                            }
+                        }
+                        if (X > 1 && Y < 7)
+                        {
+                            if (!(Tiles[X - 2, Y + 1].ChessPiece != ChessPiece.None && !Tiles[X - 2, Y + 1].White))
+                            {
+                                Moves.Add(new Point(X - 2, Y + 1));
+                            }
+                        }
+                        if (X > 0 && Y < 6)
+                        {
+                            if (!(Tiles[X - 1, Y + 2].ChessPiece != ChessPiece.None && !Tiles[X - 1, Y + 2].White))
+                            {
+                                Moves.Add(new Point(X - 1, Y + 2));
+                            }
+                        }
+                        if (X > 0 && Y > 1)
+                        {
+                            if (!(Tiles[X - 1, Y - 2].ChessPiece != ChessPiece.None && !Tiles[X - 1, Y - 2].White))
+                            {
+                                Moves.Add(new Point(X - 1, Y - 2));
+                            }
+                        }
+                        if (X < 7 && Y < 6)
+                        {
+                            if (!(Tiles[X + 1, Y + 2].ChessPiece != ChessPiece.None && !Tiles[X + 1, Y + 2].White))
+                            {
+                                Moves.Add(new Point(X + 1, Y + 2));
+                            }
+                        }
+                        if (X < 7 && Y > 1)
+                        {
+                            if (!(Tiles[X + 1, Y - 2].ChessPiece != ChessPiece.None && !Tiles[X + 1, Y - 2].White))
+                            {
+                                Moves.Add(new Point(X + 1, Y - 2));
+                            }
+                        }
+                    }
                     #endregion Knight
                     break;
                 case ChessPiece.King:
@@ -363,15 +483,137 @@ namespace Chess
                     }
                     #endregion King
                     break;
-            }
+                case ChessPiece.Rook:
+                    #region Rook
+                    if (t.White)
+                    {
+                        for (int i = X + 1; i < 8; i++)
+                        {
+                            if (Tiles[i, Y].ChessPiece == ChessPiece.None)
+                                Moves.Add(new Point(i, Y));
+                            else
+                            {
+                                if (Tiles[i, Y].White)
+                                    break;
+                                else
+                                {
+                                    Moves.Add(new Point(i, Y));
+                                    break;
+                                }
+                            }
+                        }
+                        for (int i = X - 1; i >= 0; i--)
+                        {
+                            if (Tiles[i, Y].ChessPiece == ChessPiece.None)
+                                Moves.Add(new Point(i, Y));
+                            else
+                            {
+                                if (Tiles[i, Y].White)
+                                    break;
+                                else
+                                {
+                                    Moves.Add(new Point(i, Y));
+                                    break;
+                                }
+                            }
+                        }
+                        for (int i = Y + 1; i < 8; i++)
+                        {
+                            if (Tiles[X, i].ChessPiece == ChessPiece.None)
+                                Moves.Add(new Point(X, i));
+                            else
+                            {
+                                if (Tiles[X, i].White)
+                                    break;
+                                else
+                                {
+                                    Moves.Add(new Point(X, i));
+                                    break;
+                                }
+                            }
+                        }
+                        for (int i = Y - 1; i >= 0; i--)
+                        {
+                            if (Tiles[X, i].ChessPiece == ChessPiece.None)
+                                Moves.Add(new Point(X, i));
+                            else
+                            {
+                                if (Tiles[X, i].White)
+                                    break;
+                                else
+                                {
+                                    Moves.Add(new Point(X, i));
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        for (int i = X + 1; i < 8; i++)
+                        {
+                            if (Tiles[i, Y].ChessPiece == ChessPiece.None)
+                                Moves.Add(new Point(i, Y));
+                            else
+                            {
+                                if (!Tiles[i, Y].White)
+                                    break;
+                                else
+                                {
+                                    Moves.Add(new Point(i, Y));
+                                    break;
+                                }
+                            }
+                        }
+                        for (int i = X - 1; i >= 0; i--)
+                        {
+                            if (Tiles[i, Y].ChessPiece == ChessPiece.None)
+                                Moves.Add(new Point(i, Y));
+                            else
+                            {
+                                if (!Tiles[i, Y].White)
+                                    break;
+                                else
+                                {
+                                    Moves.Add(new Point(i, Y));
+                                    break;
+                                }
+                            }
+                        }
+                        for (int i = Y + 1; i < 8; i++)
+                        {
+                            if (Tiles[X, i].ChessPiece == ChessPiece.None)
+                                Moves.Add(new Point(X, i));
+                            else
+                            {
+                                if (!Tiles[X, i].White)
+                                    break;
+                                else
+                                {
+                                    Moves.Add(new Point(X, i));
+                                    break;
+                                }
+                            }
+                        }
+                        for (int i = Y - 1; i >= 0; i--)
+                        {
+                            if (Tiles[X, i].ChessPiece == ChessPiece.None)
+                                Moves.Add(new Point(X, i));
+                            else
+                            {
+                                if (!Tiles[X, i].White)
+                                    break;
+                                else
+                                {
+                                    Moves.Add(new Point(X, i));
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    #endregion Rook
+                    break;
 
-            for (int i = 0; i < Moves.Count; i++)
-            {
-                if (Moves[i].X > 7 || Moves[i].X < 0 || Moves[i].Y > 7 || Moves[i].Y < 0)
-                {
-                    Moves.Remove(Moves[i]);
-                    i--;
-                }
             }
             return Moves;
         }
