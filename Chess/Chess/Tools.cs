@@ -8,8 +8,8 @@ namespace Chess
     public class Tools
     {
         public static void LoadChessPieces()
-        { 
-            Drawing.Image img = Drawing.Bitmap.FromFile(Path.Combine(Directory.GetCurrentDirectory(), "SpriteSheet", "ChessPieces.jpg"));
+        {
+            Drawing.Image img = Drawing.Bitmap.FromFile(Path.Combine(Directory.GetCurrentDirectory(), "Content", "Images", "spritesheet.jpg"));
             Drawing.Bitmap bmp = new Drawing.Bitmap(img);
 
             for (int i = 0; i < 12; i++)

@@ -61,11 +61,11 @@ namespace Chess
             spriteBatch.Begin();
             ChessBoard.Draw();
 
-            spriteBatch.Draw(Pointer, new Rectangle(MouseState.X, MouseState.Y,14, 22), Color.White);
+            spriteBatch.Draw(Pointer, new Rectangle(MouseState.X, MouseState.Y, 14, 22), Color.White);
             spriteBatch.End();
 
             MouseDown = false;
-            base.Draw(gameTime);        
+            base.Draw(gameTime);
         }
     }
 }
